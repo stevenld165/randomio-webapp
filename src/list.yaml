@@ -1,0 +1,19 @@
+shows:
+    - iCarly
+    - Victorious
+    - Wizards of Waverly Place
+    - Saiki K
+    - Rick and Morty:
+        seasons: [1,7]
+    - Doctor Who (2005):
+        seasons: [1,10]
+        extra:
+            - 0:2
+            - 0:4
+            - 0:7
+            - 0:14
+            - 0:16
+            - 0:17
+    - Phineas and Ferb
+    - Gravity Falls
+    - Avatar the Last Airbender (2005)
