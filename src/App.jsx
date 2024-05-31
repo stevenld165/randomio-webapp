@@ -18,6 +18,8 @@ function App() {
   })
 
   const [showList, setShowList] = React.useState(fileList)
+  const [randomEpisodeHistory, setRandomEpisodeHistory] = React.useState([])
+  const [apiKey, setApiKey] = React.useState("")
 
   console.log(showList.shows)
 
@@ -78,13 +80,33 @@ function App() {
       episodeThumbnail: randomEpisode.thumbnail,
       episodeId: randomEpisode.id
     })
+
+    console.log("rolled")
     // save result to a stack 
+    console.log(randomEpisodeObj)
+    setRandomEpisodeHistory(prevStack => [...prevStack, randomEpisodeObj])
+    console.log(randomEpisodeHistory)
   }
 
 
+  function undoRoll() {
+    if (randomEpisodeHistory.length <= 1)
+      return
+
+    let temp = randomEpisodeHistory[randomEpisodeHistory.length - 1]
+    console.log(randomEpisodeHistory)
+    setRandomEpisodeObj(temp)
+    setRandomEpisodeHistory(prevStack => prevStack.slice(0, -1))
+  }
+
+  function handleApiChange (event) {
+    setApiKey(event.target.value)
+  }
+
+  console.log(apiKey)
   return (
     <>
-      <Navigation randomEpisodeObj={randomEpisodeObj} roll={chooseRandom}/>
+      <Navigation randomEpisodeObj={randomEpisodeObj} roll={chooseRandom} goBack={undoRoll} apiKey={apiKey} handleChange={handleApiChange}/>
       <hr/>
       <Info randomEpisodeObj={randomEpisodeObj}/>
       
