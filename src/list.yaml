@@ -5,7 +5,7 @@ shows:
     - Saiki K
     - Rick and Morty:
         seasons: [1,7]
-    - Doctor Who (2005):
+    - Doctor Who:
         seasons: [1,10]
         extra:
             - 0:2
@@ -14,6 +14,8 @@ shows:
             - 0:14
             - 0:16
             - 0:17
+        year: "2005"
     - Phineas and Ferb
     - Gravity Falls
-    - Avatar the Last Airbender (2005)
+    - Avatar the Last Airbender:
+        year: "2005"

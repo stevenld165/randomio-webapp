@@ -23,19 +23,49 @@ function App() {
 
   console.log(showList.shows)
 
+  async function nameToImdbId (name, year) {
+    try {
+      const response = await fetch(`http://www.omdbapi.com/?apikey=${apiKey}&t=${name}&year=${year}`)
+      if (!response.ok) {
+        setApiKey("PLEASE INSERT API KEY")
+        throw new Error("Omdb error")
+      }
+      else {
+        const omdbData = await response.json()
+        console.log(omdbData.imdbID)
+        return omdbData.imdbID
+      }
+    } catch (error) {
+        console.log("Omdb error")
+        return "FAIL"
+    }
+  }
+
+
   async function chooseRandom () {
     console.log("rolled")
     // choose a random show from the list using random and length
-    //const randomShow = showList.shows[Math.floor(Math.random() * showList.shows.length)]
-    const randomShow = showList.shows[5] // doctor who
+    const randomShow = showList.shows[Math.floor(Math.random() * showList.shows.length)]
+    //const randomShow = showList.shows[5] // doctor who
       // check if that item is a string or object and/or check if it contains the season or extras properties whichever is easier
     const randomShowName = typeof randomShow === "string" ? randomShow : Object.keys(randomShow)[0]
-    const randomShowOptions = Object.keys(randomShow[randomShowName])
+    const randomShowOptions = typeof randomShow === "string" ? [] : Object.keys(randomShow[randomShowName])
+    let randomShowImdbId = ""
     console.log(randomShowOptions)
-    // get the imdb id of the show
-      // to minimize omdb api uses, for now we will use the same id for testing
-    const randomShowImdbId = "tt0436992"
+    // check for year specification & set id
+    if (randomShowOptions.includes("year")) 
+      randomShowImdbId = await nameToImdbId(randomShowName, randomShow[randomShowName].year)
+    else 
+      randomShowImdbId = await nameToImdbId(randomShowName, "")
+    
+    // end the roll if the search was unsuccessful for some reason
+    if (randomShowImdbId === "FAIL") {
+      console.log("fail")
+      return
+    }
+      
 
+    //const randomShowImdbId = "tt0436992"
     // pull episode data from cinemeta api using imdb id (keep it as a variable to minimize api requests)
     const response = await fetch(`https://v3-cinemeta.strem.io/meta/series/${randomShowImdbId}.json`)
     const randomShowData = await response.json()
@@ -93,9 +123,9 @@ function App() {
     if (randomEpisodeHistory.length <= 1)
       return
 
-    let temp = randomEpisodeHistory[randomEpisodeHistory.length - 1]
+    //let temp = 
     console.log(randomEpisodeHistory)
-    setRandomEpisodeObj(temp)
+    setRandomEpisodeObj(randomEpisodeHistory[randomEpisodeHistory.length - 1])
     setRandomEpisodeHistory(prevStack => prevStack.slice(0, -1))
   }
 
@@ -103,13 +133,13 @@ function App() {
     setApiKey(event.target.value)
   }
 
-  console.log(apiKey)
+
+
   return (
     <>
       <Navigation randomEpisodeObj={randomEpisodeObj} roll={chooseRandom} goBack={undoRoll} apiKey={apiKey} handleChange={handleApiChange}/>
       <hr/>
       <Info randomEpisodeObj={randomEpisodeObj}/>
-      
     </>
   )
 }
