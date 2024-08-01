@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Info from './components/Info'
 import Navigation from './components/Navigation'
 import fileList from './list.yaml'
+import YAML from 'yaml'
 
 function App() {
   const [randomEpisodeObj, setRandomEpisodeObj] = React.useState({
@@ -16,6 +17,12 @@ function App() {
     episodeThumbnail: "https://episodes.metahub.space/tt12637874/1/1/w780.jpg",
     episodeId: "tt12637874:1:1"
   })
+
+  const [listFile, setListFile] = useState();
+
+  function handleFileChange(event) {
+    setListFile(event.target.files[0])
+  }
 
   const [showList, setShowList] = React.useState(fileList)
   const [randomEpisodeHistory, setRandomEpisodeHistory] = React.useState([])
@@ -133,10 +140,28 @@ function App() {
     setApiKey(event.target.value)
   }
 
+  React.useEffect(() => {
+    async function fileToYAMLParsed () {
+      console.log(listFile)
+      const listFileText = await listFile.text()
+      console.log(listFileText)
 
+      // check to see if file contains yaml to make sure its right
+      if (listFile.name.includes(".yaml")) {
+        // take the plain text yaml and then run it through YAML.parse() and save that to a different state
+        setShowList(YAML.parse(listFileText))
+      } else {
+        console.log("File not YAML")
+      }
+
+      
+    }
+    fileToYAMLParsed()
+  }, [listFile])
 
   return (
     <>
+      <input type="file" onChange={handleFileChange}></input>
       <Navigation randomEpisodeObj={randomEpisodeObj} roll={chooseRandom} goBack={undoRoll} apiKey={apiKey} handleChange={handleApiChange}/>
       <hr/>
       <Info randomEpisodeObj={randomEpisodeObj}/>
