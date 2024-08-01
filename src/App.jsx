@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 //import './App.css'
 import Info from './components/Info'
 import Navigation from './components/Navigation'
+import ListPanel from './components/ListPanel'
+
 import fileList from './list.yaml'
 import YAML from 'yaml'
 
@@ -24,11 +26,11 @@ function App() {
     setListFile(event.target.files[0])
   }
 
-  const [showList, setShowList] = React.useState(fileList)
+  const [showList, setShowList] = React.useState(JSON.parse(localStorage.getItem("showList")) || fileList)
   const [randomEpisodeHistory, setRandomEpisodeHistory] = React.useState([])
-  const [apiKey, setApiKey] = React.useState("")
+  const [apiKey, setApiKey] = React.useState(localStorage.getItem("apiKey") || "")
 
-  console.log(showList.shows)
+  console.log(showList)
 
   async function nameToImdbId (name, year) {
     try {
@@ -51,6 +53,7 @@ function App() {
 
   async function chooseRandom () {
     console.log("rolled")
+
     // choose a random show from the list using random and length
     const randomShow = showList.shows[Math.floor(Math.random() * showList.shows.length)]
     //const randomShow = showList.shows[5] // doctor who
@@ -149,6 +152,7 @@ function App() {
       // check to see if file contains yaml to make sure its right
       if (listFile.name.includes(".yaml")) {
         // take the plain text yaml and then run it through YAML.parse() and save that to a different state
+        
         setShowList(YAML.parse(listFileText))
       } else {
         console.log("File not YAML")
@@ -159,9 +163,18 @@ function App() {
     fileToYAMLParsed()
   }, [listFile])
 
+  // useeffect for whenever the showList state changes to save that to localStorage and also same thing for apiKey
+  React.useEffect(() => {
+    localStorage.setItem("apiKey", apiKey)
+  }, [apiKey])
+
+  React.useEffect(() => {
+    localStorage.setItem("showList", JSON.stringify(showList))
+  }, [showList])
+
   return (
     <>
-      <input type="file" onChange={handleFileChange}></input>
+      <ListPanel handleFileChange={handleFileChange} showList={showList}/>
       <Navigation randomEpisodeObj={randomEpisodeObj} roll={chooseRandom} goBack={undoRoll} apiKey={apiKey} handleChange={handleApiChange}/>
       <hr/>
       <Info randomEpisodeObj={randomEpisodeObj}/>
