@@ -34,7 +34,7 @@ function App() {
 
   async function nameToImdbId (name, year) {
     try {
-      const response = await fetch(`http://www.omdbapi.com/?apikey=${apiKey}&t=${name}&year=${year}`)
+      const response = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&t=${name}&year=${year}`)
       if (!response.ok) {
         setApiKey("PLEASE INSERT API KEY")
         throw new Error("Omdb error")
