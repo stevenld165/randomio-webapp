@@ -1,8 +1,9 @@
-# Randiomio - WIP!
+# Randiomio
+*Now live at https://randomio.netlify.app/*
 
 > Miss the days of turning on the TV and just watching whatever is on? Emulate the ease of life with Randomio!
 
-This is a React app that randomly chooses an episode of a random show based on a list that the user provides. Type your OMDB API code along with inputting a list in the settings, roll the dice, and click the Play button and instantly open that specific episode in Stremio. Life has never been easier!
+This is a React app that randomly chooses an episode of a random show based on a list that the user provides. Type your [OMDB API](https://www.omdbapi.com/) code along with inputting a list in the settings, roll the dice, and click the Play button and instantly open that specific episode in Stremio. Life has never been easier!
 
 ## QOL Features:
 - Your API key saved using localstorage, no need to type it in every single time!
@@ -52,4 +53,4 @@ This app is my attempt to make a React app for the first time. It's also made fo
 - [ ] Change Default Episode to provide context and branding
   - No More Okey dokey...
 - [ ] Create Mobile Layout (either using responsive or separate mobile page)
-- [ ] Add the ability to have multiple season ranges ([1,7] & [9,10])
+- [ ] Add the ability to have multiple season ranges (\[1,7\] & \[9,107])
