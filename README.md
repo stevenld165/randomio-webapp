@@ -1,4 +1,4 @@
-# Randiomio
+# Randomio
 *Now live at https://randomio.netlify.app/*
 
 > Miss the days of turning on the TV and just watching whatever is on? Emulate the ease of life with Randomio!
