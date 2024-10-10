@@ -4,7 +4,7 @@ import YAML from 'yaml'
 export default function ListPanel (props) {
 
     return (
-        <div>
+        <div className='listPanel-container'>
             <input type="file" onChange={props.handleFileChange}></input>
             <div>
                 <h3>Currently loaded list:</h3>

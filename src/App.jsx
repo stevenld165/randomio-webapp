@@ -174,10 +174,13 @@ function App() {
 
   return (
     <>
-      <ListPanel handleFileChange={handleFileChange} showList={showList}/>
-      <Navigation randomEpisodeObj={randomEpisodeObj} roll={chooseRandom} goBack={undoRoll} apiKey={apiKey} handleChange={handleApiChange}/>
-      <hr/>
+    <div className='app-container'>
       <Info randomEpisodeObj={randomEpisodeObj}/>
+      <div className='sidePanel-container'>
+        <Navigation randomEpisodeObj={randomEpisodeObj} roll={chooseRandom} goBack={undoRoll} apiKey={apiKey} handleChange={handleApiChange}/>
+        <ListPanel handleFileChange={handleFileChange} showList={showList}/>
+      </div>
+    </div>
     </>
   )
 }
